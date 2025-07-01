@@ -10,8 +10,15 @@ import { useState } from "react";
 import { cn } from "@/lib/utils"; // ShadCN's class utility
 
 export function Dropdown() {
-  const options = ["Title", "Date", "Status", "Organizer"];
-  const [selected, setSelected] = useState("Customize Columns");
+  const options = [
+    "Tech",
+    "Business",
+    "Health",
+    "Education",
+    "Science",
+    "Media",
+  ];
+  const [selected, setSelected] = useState("Category");
 
   return (
     <DropdownMenu>
