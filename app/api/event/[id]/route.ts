@@ -30,10 +30,10 @@ export async function PUT(
     image,
     day,
     date,
-    start,
-    end,
-    prize,
-    discountPrize,
+    startTime,
+    endTime,
+    price,
+    discountPrice,
     location,
   } = body;
 
@@ -44,10 +44,10 @@ export async function PUT(
     !image ||
     !day ||
     !date ||
-    !start ||
-    !end ||
-    !prize ||
-    !discountPrize ||
+    !startTime ||
+    !endTime ||
+    !price ||
+    !discountPrice ||
     !location?.address ||
     !location?.placeId ||
     !location?.coordinates?.lat ||
@@ -67,10 +67,10 @@ export async function PUT(
       image,
       day,
       date,
-      start,
-      end,
-      prize,
-      discountPrize,
+      startTime,
+      endTime,
+      price,
+      discountPrice,
       location,
     },
     { new: true }
@@ -81,6 +81,24 @@ export async function PUT(
     return NextResponse.json({
       message: "event updated successfully",
       updatedEvent,
+    });
+  }
+}
+
+// view that specific event
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  await connectDB();
+  const currentEvent: any = await Event.findOne({ _id: params.id });
+
+  if (!currentEvent && currentEvent.lenght === 0) {
+    return NextResponse.json({ message: "current event not found error" });
+  } else {
+    return NextResponse.json({
+      message: "the current event details are",
+      currentEvent,
     });
   }
 }

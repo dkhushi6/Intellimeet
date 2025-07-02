@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -6,38 +8,38 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ColumnsIcon, ChevronDown, Check } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils"; // ShadCN's class utility
+import { cn } from "@/lib/utils";
 
-export function Dropdown() {
-  const options = [
-    "Tech",
-    "Business",
-    "Health",
-    "Education",
-    "Science",
-    "Media",
-  ];
-  const [selected, setSelected] = useState("Category");
+type DropdownProps = {
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+};
 
+export function Dropdown({ value, onChange, options }: DropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2">
-          <ColumnsIcon className="h-4 w-4" />
-          {selected}
-          <ChevronDown className="h-4 w-4 ml-auto" />
+        <Button
+          variant="outline"
+          className="flex items-center gap-2 w-full justify-between"
+        >
+          <div className="flex items-center gap-2">
+            <ColumnsIcon className="h-4 w-4" />
+            {value || "Select Category"}
+          </div>
+          <ChevronDown className="h-4 w-4 ml-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {options.map((label) => (
           <DropdownMenuItem
             key={label}
-            onClick={() => setSelected(label)}
+            onClick={() => onChange(label)}
             className="flex items-center justify-between"
           >
             {label}
-            {selected === label && <Check className="h-4 w-4 text-primary" />}
+            {value === label && <Check className="h-4 w-4 text-primary" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

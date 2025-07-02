@@ -2,17 +2,20 @@ import mongoose from "mongoose";
 
 const eventSchema = new mongoose.Schema(
   {
-    title: String,
-    longDescription: String,
-    shortDescription: String,
-    image: String,
-    day: String,
+    title: { type: String },
+    longDescription: { type: String },
+    shortDescription: { type: String },
+    image: { type: String },
     date: Date,
-    start: String,
-    end: String,
-    prize: Number,
-    discountPrize: Number,
-    createdById: String,
+    startTime: { type: String },
+    endTime: { type: String },
+    price: Number,
+    discountPrice: Number,
+    createdById: { type: String },
+    occupancy: { type: String },
+    category: { type: String },
+    isPublic: { type: Boolean, default: false }, // public/private
+    isOffline: { type: Boolean, default: false }, //offline/online
     location: {
       address: String, // Full address (e.g., "221B Baker Street, London")
       placeId: String, // Google Place ID (for precise reference)
@@ -25,4 +28,4 @@ const eventSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Event", eventSchema);
+export default mongoose.models.Event || mongoose.model("Event", eventSchema);

@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// ✅ Renamed to avoid shadowing the global Date
+// Helper to format date
 function formatDate(date: Date | undefined) {
   if (!date) return "";
   return date.toLocaleDateString("en-US", {
@@ -23,23 +23,25 @@ function formatDate(date: Date | undefined) {
   });
 }
 
-function isValidDate(date: Date | undefined) {
-  if (!date) return false;
-  return !isNaN(date.getTime());
+interface Calendar28Props {
+  selected: Date | undefined;
+  onChange: (date: Date) => void;
 }
 
-export function Calendar28() {
+export function Calendar28({ selected, onChange }: Calendar28Props) {
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date("2025-06-01")
-  );
-  const [month, setMonth] = React.useState<Date | undefined>(date);
-  const [value, setValue] = React.useState(formatDate(date));
+  const [month, setMonth] = React.useState<Date | undefined>(selected);
+  const [value, setValue] = React.useState(formatDate(selected));
+
+  // keep input in sync with selected prop
+  React.useEffect(() => {
+    setValue(formatDate(selected));
+  }, [selected]);
 
   return (
     <div className="flex flex-col gap-3">
       <Label htmlFor="date" className="px-1">
-        Date{" "}
+        Date
       </Label>
       <div className="relative flex gap-2">
         <Input
@@ -50,8 +52,8 @@ export function Calendar28() {
           onChange={(e) => {
             const parsed = new Date(e.target.value);
             setValue(e.target.value);
-            if (isValidDate(parsed)) {
-              setDate(parsed);
+            if (!isNaN(parsed.getTime())) {
+              onChange(parsed);
               setMonth(parsed);
             }
           }}
@@ -81,14 +83,16 @@ export function Calendar28() {
           >
             <Calendar
               mode="single"
-              selected={date}
+              selected={selected}
               captionLayout="dropdown"
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
-                setDate(date);
-                setValue(formatDate(date));
-                setOpen(false);
+                if (date) {
+                  onChange(date);
+                  setValue(formatDate(date));
+                  setOpen(false);
+                }
               }}
             />
           </PopoverContent>

@@ -16,4 +16,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      // Ensure MongoDB user ID (_id) is included
+      session.user.id = user.id; // user.id is actually the MongoDB _id
+      return session;
+    },
+  },
 });

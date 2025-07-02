@@ -12,36 +12,49 @@ export async function POST(req: NextRequest) {
     longDescription,
     shortDescription,
     image,
-    day,
     date,
-    start,
-    end,
-    prize,
-    discountPrize,
+    startTime,
+    endTime,
+    price,
+    discountPrice,
     createdById,
+    isOffline,
+    isPublic,
+    category,
+    occupancy,
     location,
   } = body;
-
   if (
     !title ||
     !longDescription ||
     !shortDescription ||
     !image ||
-    !day ||
     !date ||
-    !start ||
-    !end ||
-    !prize ||
-    !discountPrize ||
-    !location?.address ||
-    !location?.placeId ||
-    !location?.coordinates?.lat ||
-    !location?.coordinates?.lng
+    !startTime ||
+    !endTime ||
+    !price ||
+    !discountPrice ||
+    !createdById ||
+    !category ||
+    !occupancy
   ) {
     return NextResponse.json(
       { message: "All fields are required" },
       { status: 400 }
     );
+  }
+  if (isOffline) {
+    if (
+      !location?.address ||
+      !location?.placeId ||
+      !location?.coordinates?.lat ||
+      !location?.coordinates?.lng
+    ) {
+      return NextResponse.json(
+        { message: "Location details are required for offline events." },
+        { status: 400 }
+      );
+    }
   }
   if (!createdById) {
     return NextResponse.json({ message: "enter admin ID" });
@@ -57,19 +70,22 @@ export async function POST(req: NextRequest) {
     longDescription,
     shortDescription,
     image,
-    day,
+    isOffline,
+    isPublic,
+    category,
+    occupancy,
     date,
-    start,
-    end,
-    prize,
-    discountPrize,
+    startTime,
+    endTime,
+    price,
+    discountPrice,
     createdById,
-    location,
+    location: isOffline ? location : undefined,
   });
   return NextResponse.json({ message: "event created successfully", event });
 }
 
-// see all events
+// see all events that are both public and private
 export async function GET(req: NextRequest) {
   await connectDB();
   const allEvent = await Event.find();
