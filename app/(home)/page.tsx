@@ -1,7 +1,17 @@
+import AllEvents from "@/components/allevents/page";
+
 export default function Home() {
   return (
-    <div className="text-3xl flex justify-center items-center h-[100vh]">
-      Dashboard
+    <div className="">
+      <div>DASHBOARD</div>
+      <div>
+        {" "}
+        <div>All Events</div>
+        <div>
+          {" "}
+          <AllEvents />
+        </div>{" "}
+      </div>
     </div>
   );
 }

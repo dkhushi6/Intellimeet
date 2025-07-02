@@ -6,6 +6,10 @@ const eventSchema = new mongoose.Schema(
     longDescription: { type: String },
     shortDescription: { type: String },
     image: { type: String },
+    visitCount: {
+      type: Number,
+      default: 0,
+    },
     date: Date,
     startTime: { type: String },
     endTime: { type: String },

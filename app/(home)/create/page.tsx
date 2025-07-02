@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { Switch } from "@/components/ui/switch";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dropdown } from "@/components/(extra)/dropdown/page";
 import { useSession } from "next-auth/react";
 
@@ -49,6 +49,8 @@ export default function Create() {
   }, []);
 
   const handleCreate = async () => {
+    const formRef = useRef<HTMLFormElement>(null);
+
     const {
       title,
       shortDescription,
@@ -130,8 +132,13 @@ export default function Create() {
         alert("Unexpected error occurred");
       }
     }
+    formRef.current?.reset();
   };
 
+  const handleCancle = () => {
+    const formRef = useRef<HTMLFormElement>(null);
+    formRef.current?.reset();
+  };
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -482,11 +489,7 @@ export default function Create() {
 
               {/* Buttons */}
               <div className="flex justify-end gap-4 pt-6">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => console.log("Cancel clicked")}
-                >
+                <Button type="button" variant="outline" onClick={handleCancle}>
                   Cancel
                 </Button>
                 <Button type="button" onClick={handleCreate}>

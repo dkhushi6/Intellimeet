@@ -91,7 +91,11 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
-  const currentEvent: any = await Event.findOne({ _id: params.id });
+  const currentEvent: any = await Event.findByIdAndUpdate(
+    params.id,
+    { $inc: { visitCount: 1 } },
+    { new: true }
+  );
 
   if (!currentEvent && currentEvent.lenght === 0) {
     return NextResponse.json({ message: "current event not found error" });
