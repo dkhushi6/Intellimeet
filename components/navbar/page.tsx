@@ -16,7 +16,7 @@ export default function Navbar() {
           <Link href="/create">Create</Link>
         </div>
         <div>
-          <Link href="/saved">Saved</Link>
+          <Link href={`/saved/${session?.user?.id}`}>Saved</Link>
         </div>
         {session ? (
           <div>

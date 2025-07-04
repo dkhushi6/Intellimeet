@@ -1,12 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mdb-connection";
 import Event from "@/lib/models/event";
-
+import { auth } from "@/auth";
+import User from "@/lib/models/user";
 //creating an event
 export async function POST(req: NextRequest) {
   await connectDB();
-  const body = await req.json();
+  const session = await auth();
+  if (!session?.user?.email) {
+    return NextResponse.json({
+      message: "login first",
+    });
+  }
 
+  const body = await req.json();
+  let user = await User.findOne({ email: session.user.email });
+  if (!user) {
+    user = await User.create({
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+    });
+  }
   const {
     title,
     longDescription,
@@ -56,9 +71,7 @@ export async function POST(req: NextRequest) {
       );
     }
   }
-  if (!createdById) {
-    return NextResponse.json({ message: "enter admin ID" });
-  }
+
   const exEvent = await Event.findOne({ title });
   if (exEvent) {
     return NextResponse.json({
@@ -79,7 +92,7 @@ export async function POST(req: NextRequest) {
     endTime,
     price,
     discountPrice,
-    createdById,
+    createdById: user._id,
     location: isOffline ? location : undefined,
   });
   return NextResponse.json({ message: "event created successfully", event });

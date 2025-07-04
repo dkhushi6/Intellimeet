@@ -15,7 +15,11 @@ const eventSchema = new mongoose.Schema(
     endTime: { type: String },
     price: Number,
     discountPrice: Number,
-    createdById: { type: String },
+    createdById: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     occupancy: { type: String },
     category: { type: String },
     isPublic: { type: Boolean, default: false }, // public/private
