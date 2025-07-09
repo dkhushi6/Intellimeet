@@ -19,6 +19,8 @@ import { useSession } from "next-auth/react";
 
 export default function Create() {
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -49,8 +51,6 @@ export default function Create() {
   }, []);
 
   const handleCreate = async () => {
-    const formRef = useRef<HTMLFormElement>(null);
-
     const {
       title,
       shortDescription,
@@ -492,8 +492,8 @@ export default function Create() {
                 <Button type="button" variant="outline" onClick={handleCancle}>
                   Cancel
                 </Button>
-                <Button type="button" onClick={handleCreate}>
-                  Create Event
+                <Button type="button" onClick={handleCreate} disabled={loading}>
+                  {loading ? "Creating..." : "Create Event"}
                 </Button>
               </div>
             </div>
