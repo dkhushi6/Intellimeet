@@ -9,10 +9,10 @@ interface Layoutprops {
 export default function profileLayout({ children }: Layoutprops) {
   return (
     <div className="flex ">
-      <div className="w-1/4">
+      <div className="w-1/4 fixed">
         <UserProfile />
       </div>
-      <div className="w-3/4">
+      <div className="w-3/4 ml-[26%]">
         <ProfileNav />
         {children}
       </div>

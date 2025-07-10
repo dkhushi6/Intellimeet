@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { Share } from "lucide-react";
 
 export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [eventId, setEventId] = useState<string | null>(null);
@@ -132,7 +133,15 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
                   {event.shortDescription}
                 </CardDescription>
               </div>
-              <div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Toggle theme"
+                  className="transition-all"
+                >
+                  <Share className="" />
+                </Button>
                 <Button onClick={handleSave}>save</Button>
               </div>
             </div>
