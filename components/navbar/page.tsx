@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import ThemeSwitcher from "@/components/theme-switcher/page";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -12,6 +13,9 @@ export default function Navbar() {
         <Link href="/">I n t e l l i M e e t</Link>
       </div>
       <div className="flex gap-4">
+        <div>
+          <ThemeSwitcher />
+        </div>
         <div>
           <Link href="/create">Create</Link>
         </div>
