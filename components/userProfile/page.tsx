@@ -1,15 +1,41 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Pencil, Trash } from "lucide-react";
 
 export default function UserProfile() {
   const { data: session } = useSession();
   const [bio, setBio] = useState("");
+  const [exBio, setExBio] = useState<string | null>(null);
+  const router = useRouter();
+  useEffect(() => {
+    const fetchBio = async () => {
+      const res = await axios.post("/api/bio", { userBio: bio });
+      console.log(res.data);
 
+      setExBio(res.data.userBio);
+    };
+    fetchBio();
+  }, []);
+  const handleSave = async () => {
+    const res = await axios.post("/api/bio", { userBio: bio });
+    console.log(res.data);
+    setExBio(bio);
+    router.refresh();
+  };
+  const handleDelete = async () => {
+    const res = await axios.patch("/api/bio", { userBio: bio });
+    console.log(res.data);
+    setExBio("");
+
+    router.refresh();
+  };
   return (
     <div className="flex justify-center mt-10">
       <Card className="w-full max-w-md shadow-md rounded-2xl border p-6">
@@ -23,6 +49,7 @@ export default function UserProfile() {
                 width={120}
                 height={120}
               />
+
               <CardTitle className="text-center text-2xl font-semibold">
                 {session.user?.name}
               </CardTitle>
@@ -30,12 +57,46 @@ export default function UserProfile() {
                 {session.user?.email}
               </p>
             </div>
+            {exBio ? (
+              <CardContent className="mt-4">
+                <div className="flex justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">
+                      {exBio}
+                    </p>
+                  </div>
+                  <div>
+                    <Button onClick={handleDelete}>
+                      {" "}
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            ) : (
+              <div>
+                {" "}
+                <CardContent className="mt-6 space-y-4">
+                  <Textarea
+                    id="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Tell us a bit about yourself…"
+                    className="min-h-[100px]"
+                  />
 
-            <CardContent className="mt-6 space-y-4">
+                  <Button className="w-full" onClick={handleSave}>
+                    Save Bio
+                  </Button>
+                </CardContent>
+              </div>
+            )}
+
+            <CardContent className="mt-2 space-y-4">
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/login" })}
               >
                 Log Out
               </Button>

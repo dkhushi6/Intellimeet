@@ -16,6 +16,8 @@ import { Share } from "lucide-react";
 
 export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [eventId, setEventId] = useState<string | null>(null);
+  const [creator, setCreator] = useState<string | null>(null);
+
   interface EventType {
     title: string;
     longDescription: string;
@@ -60,7 +62,9 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
     const fetchEvent = async () => {
       try {
         const res = await axios.get(`/api/event/${eventId}`);
+        console.log(res.data);
         setEvent(res.data.currentEvent);
+        setCreator(res.data.createdByInfo);
       } catch (error) {
         console.error("Error fetching event:", error);
       }
@@ -117,7 +121,6 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <div className="max-w-5xl mx-auto p-4 flex flex-col lg:flex-row gap-6">
-      {/* Left: Event Details */}
       <div className="lg:w-2/3 w-full">
         <Card className="rounded-2xl overflow-hidden shadow-lg">
           <img
@@ -125,6 +128,22 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
             alt={event.title}
             className="w-full h-64 object-cover"
           />
+          <div>
+            {event.createdById === session?.user?.id ? (
+              <div>created by you</div>
+            ) : (
+              <div>
+                <div>
+                  <img
+                    src={event.createdById}
+                    alt="creator pic"
+                    className="rounded-full h-12 w-12"
+                  />
+                </div>
+                <div></div>{" "}
+              </div>
+            )}
+          </div>
           <CardHeader className="space-y-2">
             <div className="flex justify-between">
               <div>
