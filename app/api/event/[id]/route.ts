@@ -91,15 +91,13 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
+  const currentEvent = await Event.findById(params.id);
+  if (currentEvent) {
+    return NextResponse.json({ message: "event not found error" });
+  }
+  currentEvent.visitCount++;
+  await currentEvent.save();
 
-  const currentEvent: any = await Event.findByIdAndUpdate(
-    params.id,
-    { $inc: { visitCount: 1 } },
-    { new: true }
-  ).populate({
-    path: "createdById",
-    select: "name email image",
-  });
   if (!currentEvent && currentEvent.lenght === 0) {
     return NextResponse.json({ message: "current event not found error" });
   } else {
