@@ -1,7 +1,6 @@
 "use client";
 
 import EventCard from "@/components/event-card";
-import Fliter from "@/components/filter";
 import { Button } from "@/components/ui/button";
 import { EventType } from "@/lib/types/event-type";
 import { UnsaveEvent } from "@/save-unsave/saveUnsave";
@@ -9,7 +8,6 @@ import axios from "axios";
 import { Heart, HeartIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 const Page = () => {
   const [events, setEvent] = useState<EventType[]>([]);

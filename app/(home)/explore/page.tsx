@@ -6,16 +6,16 @@ import { EventType } from "@/lib/types/event-type";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import EventCard from "@/components/event-card";
-import Filter from "@/components/filter";
+import { Filter } from "@/components/filter";
 export default function AllEvents() {
   const [events, setEvents] = useState<EventType[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
   const [filterStatus, setFilterStatus] = useState<
     "all" | "online" | "offline"
   >("all");
-  const [sortBy, setSortBy] = useState<"date" | "price" | "recently-saved">(
-    "date"
-  );
+  const [sortBy, setSortBy] = useState<"date" | "price">("date");
 
   // Fetch events
   useEffect(() => {
@@ -37,7 +37,10 @@ export default function AllEvents() {
         event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         event.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
 
-      return matchesSearch;
+      const matchesCategory =
+        selectedCategory === "all" || event.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -45,8 +48,7 @@ export default function AllEvents() {
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         case "price":
           return a.price - b.price;
-        case "recently-saved":
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
+
         default:
           return 0;
       }
@@ -62,7 +64,15 @@ export default function AllEvents() {
     <div className="px-4 md:px-10 pt-6 max-w-7xl mx-auto">
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-        <Filter events={events} />
+        <Filter
+          events={events}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
       </div>
 
       {/* Event Count */}

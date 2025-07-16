@@ -57,9 +57,9 @@ export default function Created() {
     <div className="px-4 pt-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
-          <div>
+          <div key={event._id}>
             {" "}
-            <EventCard key={event._id} event={event} />
+            <EventCard event={event} />
             <div className="flex items-center space-x-2 mt-3">
               <button className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm">
                 <PencilIcon className="h-4 w-4" />
