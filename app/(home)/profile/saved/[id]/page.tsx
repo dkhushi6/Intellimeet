@@ -64,8 +64,8 @@ const Page = () => {
     <div className="px-4 p-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
-          <div>
-            <EventCard key={event._id} event={event} />
+          <div key={event._id}>
+            <EventCard event={event} />
             <div className="flex items-center space-x-2 mt-3 cursor-pointer">
               <button
                 className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm"
