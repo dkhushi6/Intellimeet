@@ -91,19 +91,20 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
-  const currentEvent = await Event.findById(params.id);
-  if (currentEvent) {
+  const currentEvent = await Event.findOne({ _id: params.id });
+  if (!currentEvent) {
     return NextResponse.json({ message: "event not found error" });
   }
   currentEvent.visitCount++;
   await currentEvent.save();
-
-  if (!currentEvent && currentEvent.lenght === 0) {
-    return NextResponse.json({ message: "current event not found error" });
-  } else {
-    return NextResponse.json({
-      message: "the current event details are",
-      currentEvent,
-    });
+  await currentEvent.populate("createdById");
+  const createdByInfo = currentEvent.createdById;
+  if (!createdByInfo) {
+    return NextResponse.json({ message: "createdByInfo not found" });
   }
+  return NextResponse.json({
+    message: "the current event details are",
+    currentEvent,
+    createdByInfo,
+  });
 }

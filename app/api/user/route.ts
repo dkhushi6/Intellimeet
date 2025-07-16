@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
       message: "login first",
     });
   }
+  //d
   const userId = session?.user?.id;
   const userEventSaved = await User.findById(userId).populate("savedEvents");
   if (!userEventSaved) {

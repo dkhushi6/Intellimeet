@@ -11,34 +11,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import EventCard from "@/components/event-card";
+import { EventType } from "@/lib/types/event-type";
+import { EyeIcon, Heart, PencilIcon, TrashIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Created() {
-  interface EventType {
-    _id: string;
-    title: string;
-    shortDescription: string;
-    image: string;
-    visitCount: number;
-    date: Date;
-    startTime: string;
-    endTime: string;
-    price: number;
-    discountPrice: number;
-    createdById: string;
-    occupancy: string;
-    category: string;
-    isPublic: boolean;
-    isOffline: boolean;
-    location: {
-      address: string;
-      placeId: string;
-      coordinates: {
-        lat: number;
-        lng: number;
-      };
-    };
-  }
-
   const [events, setEvent] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,77 +38,40 @@ export default function Created() {
     return <p className="text-center mt-10">Loading your events...</p>;
   if (!events || events.length === 0)
     return (
-      <p className="text-center mt-10 text-muted-foreground">
-        No events found.
-      </p>
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <div className="w-64 h-64 mb-8 bg-muted rounded-full flex items-center justify-center">
+          <Heart className="w-32 h-32 text-muted-foreground" />
+        </div>
+        <h3 className="text-2xl font-semibold mb-2">No saved events yet</h3>
+        <p className="text-muted-foreground mb-6 max-w-md">
+          You haven't saved any events yet. Browse our events and save the ones
+          that interest you.
+        </p>
+        <Button size="lg">
+          <Link href="/events">Browse Events</Link>
+        </Button>
+      </div>
     );
 
   return (
-    <div className="px-4 pt-10">
-      <h2 className="text-2xl font-semibold mb-4 text-center">
-        Your Created Events ({events.length})
-      </h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="px-4 pt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
-          <Card
-            key={event._id}
-            className="rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            <img
-              src={event.image}
-              alt={event.title}
-              className="w-full h-48 object-cover"
-            />
+          <div>
+            {" "}
+            <EventCard key={event._id} event={event} />
+            <div className="flex items-center space-x-2 mt-3">
+              <button className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm">
+                <PencilIcon className="h-4 w-4" />
+                <span>Edit</span>
+              </button>
 
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <Link href={`/events/${event._id}`}>
-                  <CardTitle className="text-xl hover:underline">
-                    {event.title}
-                  </CardTitle>
-                </Link>
-                <Badge
-                  variant={event.isPublic ? "default" : "outline"}
-                  className="text-xs"
-                >
-                  {event.isPublic ? "Public" : "Private"}
-                </Badge>
-              </div>
-              <CardDescription>{event.shortDescription}</CardDescription>
-            </CardHeader>
-
-            <CardContent className="space-y-2">
-              <p className="text-sm">
-                <strong>Date:</strong>{" "}
-                {new Date(event.date).toLocaleDateString()}
-              </p>
-              <p className="text-sm">
-                <strong>Time:</strong> {event.startTime} - {event.endTime}
-              </p>
-              <Badge className="text-xs">{event.category}</Badge>
-
-              {event.isOffline ? (
-                <div className="space-y-1">
-                  <p className="text-sm">
-                    <strong>Location:</strong> {event.location.address}
-                  </p>
-                </div>
-              ) : (
-                <p className="text-sm font-semibold text-green-600">
-                  Online Event
-                </p>
-              )}
-
-              <p className="text-sm">
-                <strong>Price:</strong> ₹
-                {event.discountPrice > 0 ? event.discountPrice : event.price}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Visitors: {event.visitCount}
-              </p>
-            </CardContent>
-          </Card>
+              <button className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm">
+                <TrashIcon className="h-4 w-4" />
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>

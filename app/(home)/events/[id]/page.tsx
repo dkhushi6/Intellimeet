@@ -13,36 +13,44 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { Share } from "lucide-react";
-
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+interface CreatorType {
+  _id: string;
+  name?: string;
+  email?: string;
+  image?: string;
+}
+interface EventType {
+  title: string;
+  longDescription: string;
+  shortDescription: string;
+  image: string;
+  visitCount: number;
+  date: Date;
+  startTime: string;
+  endTime: string;
+  price: number;
+  discountPrice: number;
+  createdById: string;
+  occupancy: string;
+  category: string;
+  isPublic: boolean;
+  isOffline: boolean;
+  location: {
+    address: string;
+    placeId: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
+}
 export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [eventId, setEventId] = useState<string | null>(null);
-  const [creator, setCreator] = useState<string | null>(null);
-
-  interface EventType {
-    title: string;
-    longDescription: string;
-    shortDescription: string;
-    image: string;
-    visitCount: number;
-    date: Date;
-    startTime: string;
-    endTime: string;
-    price: number;
-    discountPrice: number;
-    createdById: string;
-    occupancy: string;
-    category: string;
-    isPublic: boolean;
-    isOffline: boolean;
-    location: {
-      address: string;
-      placeId: string;
-      coordinates: {
-        lat: number;
-        lng: number;
-      };
-    };
-  }
+  const [creator, setCreator] = useState<CreatorType | null>(null);
+  const router = useRouter();
 
   const [event, setEvent] = useState<EventType | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -60,9 +68,12 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     const fetchEvent = async () => {
+      if (!eventId) return null;
       try {
         const res = await axios.get(`/api/event/${eventId}`);
-        console.log(res.data);
+        console.log("all", res.data);
+        console.log("Creator", res.data.createdByInfo);
+
         setEvent(res.data.currentEvent);
         setCreator(res.data.createdByInfo);
       } catch (error) {
@@ -89,7 +100,6 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
         quantity,
       };
       const res = await axios.post("/api/purchase", payload);
-      console.log(res.data);
       alert(res.data.message);
     } catch (error) {
       console.error("error purchasing");
@@ -130,17 +140,38 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
           />
           <div>
             {event.createdById === session?.user?.id ? (
-              <div>created by you</div>
+              <span className="text-sm font-medium text-emerald-600">
+                created by you
+              </span>
             ) : (
-              <div>
-                <div>
-                  <img
-                    src={event.createdById}
-                    alt="creator pic"
-                    className="rounded-full h-12 w-12"
-                  />
+              <div className="flex justify-between px-6">
+                <div className="flex gap-2 ">
+                  <div>
+                    <Image
+                      src={creator?.image ?? "/default-avatar.jpg"}
+                      alt="creator avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </div>
+                  <div>
+                    <Link href={`/createdByEvents/${creator?._id}`}>
+                      <div className="text-[15px] text-sm font-semibold leading-none cursor-pointer">
+                        {creator?.name}
+                      </div>
+                    </Link>
+
+                    <div className="text-[12px]text-xs text-muted-foreground">
+                      {creator?.email}
+                    </div>
+                  </div>{" "}
                 </div>
-                <div></div>{" "}
+                <div>
+                  <span className="text-green-700 bg-green-100 border border-green-300 text-xs px-3 py-1 rounded-full font-medium">
+                    Creator
+                  </span>
+                </div>
               </div>
             )}
           </div>

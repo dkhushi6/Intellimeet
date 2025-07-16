@@ -1,5 +1,7 @@
+import { auth } from "@/auth";
 import { connectDB } from "@/lib/mdb-connection";
 import event from "@/lib/models/event";
+import user from "@/lib/models/user";
 import User from "@/lib/models/user";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";

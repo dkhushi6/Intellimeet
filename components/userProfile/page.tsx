@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, PencilIcon, Trash } from "lucide-react";
 
 export default function UserProfile() {
   const { data: session } = useSession();
@@ -38,7 +38,7 @@ export default function UserProfile() {
   };
   return (
     <div className="flex justify-center mt-10">
-      <Card className="w-full max-w-md shadow-md rounded-2xl border p-6">
+      <Card className="w-[85%] max-w-md shadow-md rounded-2xl border px-6 py-8">
         {session ? (
           <>
             <div className="flex flex-col items-center space-y-4">
@@ -66,9 +66,12 @@ export default function UserProfile() {
                     </p>
                   </div>
                   <div>
-                    <Button onClick={handleDelete}>
-                      {" "}
-                      <Pencil className="h-4 w-4" />
+                    <Button
+                      onClick={handleDelete}
+                      variant="outline"
+                      className=" rounded-full"
+                    >
+                      <PencilIcon className="h-4 w-4 text-gray-600" />
                     </Button>
                   </div>
                 </div>

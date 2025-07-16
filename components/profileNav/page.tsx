@@ -1,35 +1,70 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+
+const tabStyle =
+  "relative flex items-center space-x-2 py-3 px-4 text-[15px] font-medium";
+
+const countStyle =
+  "ml-1 px-2 py-0.5 rounded-full text-xs font-semibold transition-colors";
 
 export default function ProfileNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const tabs = [
+    {
+      label: "Purchased Events",
+      href: "/profile/purchased",
+      count: 8, // Replace with dynamic value
+    },
+    {
+      label: "Created Events",
+      href: "/profile/created",
+      count: 12,
+    },
+    {
+      label: "Saved Events",
+      href: `/profile/saved/${session?.user?.id}`,
+      count: 5,
+    },
+  ];
 
   return (
-    <div className="flex justify-center py-2">
-      {" "}
-      {/* Reduced from py-4 to py-2 */}
-      <div className="inline-flex border rounded-2xl p-0.5 bg-muted">
-        <Link href="/profile/created">
-          <Button
-            variant={pathname === "/profile/created" ? "default" : "ghost"}
-            className="rounded-l-2xl px-4 py-1 text-sm"
-          >
-            Created
-          </Button>
-        </Link>
+    <div className="w-full border-b border-muted dark:border-gray-700 rounded-t-2xl  ">
+      <nav className="flex justify-center space-x-8">
+        {tabs.map((tab) => {
+          const isActive = pathname === tab.href;
+          return (
+            <Link key={tab.label} href={tab.href}>
+              <div
+                className={`${tabStyle} ${
+                  isActive
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100"
+                }`}
+              >
+                <span>{tab.label}</span>
+                <span
+                  className={`${countStyle} ${
+                    isActive
+                      ? "bg-purple-600 text-white dark:bg-purple-500"
+                      : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                  }`}
+                >
+                  {tab.count}
+                </span>
 
-        <Link href="/profile/purchased">
-          <Button
-            variant={pathname === "/profile/purchased" ? "default" : "ghost"}
-            className="rounded-r-2xl px-4 py-1 text-sm"
-          >
-            Purchased
-          </Button>
-        </Link>
-      </div>
+                {isActive && (
+                  <span className="absolute left-0 -bottom-[1px] h-0.5 w-full bg-purple-600 dark:bg-purple-400 rounded-full" />
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }

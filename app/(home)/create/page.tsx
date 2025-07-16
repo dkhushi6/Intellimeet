@@ -171,7 +171,7 @@ export default function Create() {
   };
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <Card>
         <CardHeader>
           <div className="flex justify-between">
