@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
 }
 
 // see all events that are both public and private
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   const allEvent = await Event.find();
   if (!allEvent) {

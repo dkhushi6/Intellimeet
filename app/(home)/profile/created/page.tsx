@@ -1,19 +1,11 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import EventCard from "@/components/event-card";
 import { EventType } from "@/lib/types/event-type";
-import { EyeIcon, Heart, PencilIcon, TrashIcon } from "lucide-react";
+import { Heart, PencilIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Created() {
@@ -44,8 +36,8 @@ export default function Created() {
         </div>
         <h3 className="text-2xl font-semibold mb-2">No saved events yet</h3>
         <p className="text-muted-foreground mb-6 max-w-md">
-          You haven't saved any events yet. Browse our events and save the ones
-          that interest you.
+          You haven{"'"}t saved any events yet. Browse our events and save the
+          ones that interest you.
         </p>
         <Button size="lg">
           <Link href="/events">Browse Events</Link>

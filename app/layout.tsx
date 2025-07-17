@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/page";
-import { Session } from "inspector/promises";
 import Providers from "@/components/provider/page";
 import { ThemeProvider } from "@/components/theme-provider/page";
 import { Toaster } from "@/components/ui/sonner";

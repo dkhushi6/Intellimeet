@@ -1,50 +1,11 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import { CreatorType, EventType } from "@/lib/types/event-type";
+import EventCard from "@/components/event-card";
 
-interface EventType {
-  _id: string;
-  title: string;
-  longDescription: string;
-  shortDescription: string;
-  image: string;
-  visitCount: number;
-  date: Date;
-  startTime: string;
-  endTime: string;
-  price: number;
-  discountPrice: number;
-  createdById: string;
-  occupancy: string;
-  category: string;
-  isPublic: boolean;
-  isOffline: boolean;
-  location: {
-    address: string;
-    placeId: string;
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
-interface CreatorType {
-  _id: string;
-  name?: string;
-  email?: string;
-  image?: string;
-  bio?: string;
-}
 export default function Creator({
   params,
 }: {
@@ -148,68 +109,9 @@ export default function Creator({
             Events ({events.length})
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
-              <Card
-                key={event._id}
-                className="rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="w-full h-48 object-cover"
-                />
-
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <Link href={`/events/${event._id}`}>
-                      <CardTitle className="text-xl hover:underline">
-                        {event.title}
-                      </CardTitle>
-                    </Link>
-                    <Badge
-                      variant={event.isPublic ? "default" : "outline"}
-                      className="text-xs"
-                    >
-                      {event.isPublic ? "Public" : "Private"}
-                    </Badge>
-                  </div>
-                  <CardDescription>{event.shortDescription}</CardDescription>
-                </CardHeader>
-
-                <CardContent className="space-y-2">
-                  <p className="text-sm">
-                    <strong>Date:</strong>{" "}
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm">
-                    <strong>Time:</strong> {event.startTime} - {event.endTime}
-                  </p>
-                  <Badge className="text-xs">{event.category}</Badge>
-
-                  {event.isOffline ? (
-                    <div className="space-y-1">
-                      <p className="text-sm">
-                        <strong>Location:</strong> {event.location.address}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-sm font-semibold text-green-600">
-                      Online Event
-                    </p>
-                  )}
-
-                  <p className="text-sm">
-                    <strong>Price:</strong> ₹
-                    {event.discountPrice > 0
-                      ? event.discountPrice
-                      : event.price}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Visitors: {event.visitCount}
-                  </p>
-                </CardContent>
-              </Card>
+              <EventCard key={event._id} event={event} />
             ))}
           </div>
         </div>

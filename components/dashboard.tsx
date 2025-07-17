@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "lucide-react";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
 
@@ -18,7 +17,7 @@ const Dashboard = () => {
       setCurrentQuote((prev) => (prev + 1) % quotes.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [quotes.length]);
   return (
     <div>
       <section className="relative  py-24">

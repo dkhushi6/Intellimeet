@@ -13,13 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { Switch } from "@/components/ui/switch";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Dropdown } from "@/components/(extra)/dropdown/page";
 import { useSession } from "next-auth/react";
 
 export default function Create() {
   const { data: session } = useSession();
-  const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const [formData, setFormData] = useState({
@@ -45,10 +44,6 @@ export default function Create() {
       },
     },
   });
-
-  useEffect(() => {
-    console.log("Session info:", session);
-  }, []);
 
   const handleCreate = async () => {
     const {
@@ -123,7 +118,7 @@ export default function Create() {
       const res = await axios.post("/api/event", payload);
       console.log("Event Created:", res.data);
       alert("Event created successfully!");
-    } catch (error: any) {
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         const backendMessage =
           error.response?.data?.message || "An error occurred";
@@ -136,7 +131,6 @@ export default function Create() {
   };
 
   const handleCancle = () => {
-    const formRef = useRef<HTMLFormElement>(null);
     formRef.current?.reset();
   };
   const handleChange = (
@@ -492,9 +486,7 @@ export default function Create() {
                 <Button type="button" variant="outline" onClick={handleCancle}>
                   Cancel
                 </Button>
-                <Button type="button" onClick={handleCreate} disabled={loading}>
-                  {loading ? "Creating..." : "Create Event"}
-                </Button>
+                <Button type="button" onClick={handleCreate}></Button>
               </div>
             </div>
           </form>

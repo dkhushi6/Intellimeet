@@ -1,9 +1,7 @@
-import { auth } from "@/auth";
 import { connectDB } from "@/lib/mdb-connection";
-import event from "@/lib/models/event";
-import user from "@/lib/models/user";
+
 import User from "@/lib/models/user";
-import mongoose from "mongoose";
+import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 // saved item route
@@ -24,7 +22,7 @@ export async function POST(
   }
 
   const alreadySavedEvent = await existingUser.savedEvents.some(
-    (savedId: any) => savedId.toString() === eventId
+    (savedId: Types.ObjectId) => savedId.toString() === eventId
   );
   if (alreadySavedEvent) {
     return NextResponse.json({

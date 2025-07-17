@@ -2,11 +2,11 @@
 import Event from "@/lib/models/event";
 import { connectDB } from "@/lib/mdb-connection";
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
-  const publicEvents: any[] = await Event.find({ isPublic: true });
+  const publicEvents = await Event.find({ isPublic: true });
 
   if (!publicEvents || publicEvents.length === 0) {
     return NextResponse.json({ message: "No public events found." });

@@ -4,15 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import ThemeSwitcher from "@/components/theme-switcher/page";
 import { Button } from "../ui/button";
-import lightLogo from "../../public/lightLogo.png";
-import darkLogo from "../../public/darkLogo.png";
-import { useTheme } from "next-themes";
+
 import { Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const { resolvedTheme } = useTheme();
-  const logoSrc = resolvedTheme === "dark" ? darkLogo : lightLogo;
   return (
     <div>
       {" "}

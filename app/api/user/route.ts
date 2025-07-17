@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { connectDB } from "@/lib/mdb-connection";
 import User from "@/lib/models/user";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 //see all events saved by user
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   const session = await auth();
   if (!session?.user?.id) {

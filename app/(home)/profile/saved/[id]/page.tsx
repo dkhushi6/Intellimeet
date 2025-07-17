@@ -19,7 +19,7 @@ const Page = () => {
         const res = await axios.get("/api/user");
         setEvent(res.data.userEventSaved.savedEvents);
       } catch (error) {
-        console.error("Saved events data not fetched.");
+        console.error("Saved events data not fetched.", error);
       }
     };
     fetchSavedEvents();
@@ -39,8 +39,8 @@ const Page = () => {
         </div>
         <h3 className="text-2xl font-semibold mb-2">No saved events yet</h3>
         <p className="text-muted-foreground mb-6 max-w-md">
-          You haven't saved any events yet. Browse our events and save the ones
-          that interest you.
+          You haven{"'"}t saved any events yet. Browse our events and save the
+          ones that interest you.
         </p>
         <Button size="lg">
           <Link href="/events">Browse Events</Link>

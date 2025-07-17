@@ -34,6 +34,11 @@ const NewEvent = () => {
         (prev - 1 + Math.ceil(events.length - 2)) % Math.ceil(events.length - 2)
     );
   };
+  if (events === null)
+    return <p className="text-center mt-10">Loading events...</p>;
+  if (events.length === 0)
+    return <p className="text-center mt-10">No events found.</p>;
+
   return (
     <div>
       <section className="py-20 ">

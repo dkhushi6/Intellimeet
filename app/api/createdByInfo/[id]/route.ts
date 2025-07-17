@@ -1,11 +1,8 @@
 import { connectDB } from "@/lib/mdb-connection";
 import User from "@/lib/models/user";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET({ params }: { params: { id: string } }) {
   await connectDB();
   const user = await User.findById(params.id);
   if (!user) {

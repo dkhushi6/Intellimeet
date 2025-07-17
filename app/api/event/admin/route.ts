@@ -1,10 +1,10 @@
 import { connectDB } from "@/lib/mdb-connection";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Event from "@/lib/models/event";
 import { auth } from "@/auth";
 
 //see events from specific admins
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   const session = await auth();
   if (!session?.user?.id) {

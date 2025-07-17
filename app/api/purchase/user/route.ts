@@ -1,9 +1,9 @@
 import { auth } from "@/auth";
 import { connectDB } from "@/lib/mdb-connection";
 import Purchase from "@/lib/models/purchase";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   const session = await auth();
   if (!session?.user?.id) {

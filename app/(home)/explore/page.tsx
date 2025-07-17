@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { EventType } from "@/lib/types/event-type";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 import EventCard from "@/components/event-card";
 import { Filter } from "@/components/filter";
 export default function AllEvents() {
@@ -12,9 +11,6 @@ export default function AllEvents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const [filterStatus, setFilterStatus] = useState<
-    "all" | "online" | "offline"
-  >("all");
   const [sortBy, setSortBy] = useState<"date" | "price">("date");
 
   // Fetch events

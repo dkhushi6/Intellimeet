@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 }
 
 // delete bio
-export async function PATCH(req: NextRequest) {
+export async function PATCH() {
   await connectDB();
   const session = await auth();
   const userId = session?.user?.id;

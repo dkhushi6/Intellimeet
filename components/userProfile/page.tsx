@@ -2,12 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Pencil, PencilIcon, Trash } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 
 export default function UserProfile() {
   const { data: session } = useSession();
@@ -22,7 +22,7 @@ export default function UserProfile() {
       setExBio(res.data.userBio);
     };
     fetchBio();
-  }, []);
+  }, [bio]);
   const handleSave = async () => {
     const res = await axios.post("/api/bio", { userBio: bio });
     console.log(res.data);

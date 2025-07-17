@@ -15,42 +15,11 @@ import { useSession } from "next-auth/react";
 import { Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-interface CreatorType {
-  _id: string;
-  name?: string;
-  email?: string;
-  image?: string;
-}
-interface EventType {
-  title: string;
-  longDescription: string;
-  shortDescription: string;
-  image: string;
-  visitCount: number;
-  date: Date;
-  startTime: string;
-  endTime: string;
-  price: number;
-  discountPrice: number;
-  createdById: string;
-  occupancy: string;
-  category: string;
-  isPublic: boolean;
-  isOffline: boolean;
-  location: {
-    address: string;
-    placeId: string;
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
+import { CreatorType, EventType } from "@/lib/types/event-type";
+
 export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [eventId, setEventId] = useState<string | null>(null);
   const [creator, setCreator] = useState<CreatorType | null>(null);
-  const router = useRouter();
 
   const [event, setEvent] = useState<EventType | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -102,7 +71,7 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
       const res = await axios.post("/api/purchase", payload);
       alert(res.data.message);
     } catch (error) {
-      console.error("error purchasing");
+      console.error("error purchasing", error);
     }
   };
 
@@ -121,7 +90,7 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
       });
       console.log(res.data);
     } catch (error) {
-      console.error("saved events data not fetched problem in fetching");
+      console.error("saved events data not fetched problem in fetching", error);
     }
   };
   if (!event) return <p>Loading...</p>;
@@ -233,7 +202,7 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
         {isCreator ? (
           <Card className="p-6 rounded-2xl shadow-md border bg-muted">
             <h2 className="text-xl font-semibold text-gray-700">
-              You're the Organizer
+              You{"'"}re the Organizer
             </h2>
             <p className="text-sm text-muted-foreground pt-2">
               You created this event, so ticket purchase is not required.

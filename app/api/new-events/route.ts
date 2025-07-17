@@ -1,7 +1,7 @@
 import Event from "@/lib/models/event";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 //see all new events
-export async function GET(req: NextRequest) {
+export async function GET() {
   const newEvents = await Event.find().sort({ createdAt: -1 }).limit(5);
   if (!newEvents) {
     return NextResponse.json({ message: "events not found" });

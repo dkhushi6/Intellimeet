@@ -13,9 +13,9 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   description,
 }) => {
   return (
-    <div className="group p-6 rounded-2xl bg-white dark:bg-[#101827] border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition duration-300 hover:scale-[1.02] cursor-default">
+    <div className="group p-6 rounded-2xl  border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition duration-300 hover:scale-[1.02] cursor-default">
       {/* Icon */}
-      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 mb-4">
+      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-muted  mb-4">
         {icon}
       </div>
 
