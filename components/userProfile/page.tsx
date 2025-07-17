@@ -22,7 +22,7 @@ export default function UserProfile() {
       setExBio(res.data.userBio);
     };
     fetchBio();
-  }, [bio]);
+  }, []);
   const handleSave = async () => {
     const res = await axios.post("/api/bio", { userBio: bio });
     console.log(res.data);
@@ -38,7 +38,7 @@ export default function UserProfile() {
   };
   return (
     <div className="flex justify-center mt-10">
-      <Card className="w-[85%] max-w-md shadow-md rounded-2xl border px-6 py-8">
+      <Card className="w-[85%] max-w-md shadow-md rounded-2xl border  px-6 py-8">
         {session ? (
           <>
             <div className="flex flex-col items-center space-y-4">
@@ -59,21 +59,18 @@ export default function UserProfile() {
             </div>
             {exBio ? (
               <CardContent className="mt-4">
-                <div className="flex justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground whitespace-pre-line">
-                      {exBio}
-                    </p>
-                  </div>
-                  <div>
-                    <Button
-                      onClick={handleDelete}
-                      variant="outline"
-                      className=" rounded-full"
-                    >
-                      <PencilIcon className="h-4 w-4 text-gray-600" />
-                    </Button>
-                  </div>
+                <div className="relative bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-[#312e81] dark:to-[#1e1b4b] border border-indigo-300 dark:border-indigo-600 rounded-xl p-4 shadow-sm transition-all hover:shadow-md">
+                  <p className="text-sm text-indigo-900 dark:text-indigo-100 leading-relaxed whitespace-pre-line">
+                    {exBio}
+                  </p>
+
+                  <Button
+                    onClick={handleDelete}
+                    variant="ghost"
+                    className="absolute top-2 right-2 h-8 w-8 p-1 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                  >
+                    <PencilIcon className="h-4 w-4 text-indigo-600 dark:text-indigo-300" />
+                  </Button>
                 </div>
               </CardContent>
             ) : (

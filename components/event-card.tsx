@@ -12,7 +12,7 @@ type EventCardProps = {
 
 const EventCard = ({ event }: EventCardProps) => {
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden p-0">
+    <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden  p-0">
       <div className="relative">
         <img
           src={event.image}

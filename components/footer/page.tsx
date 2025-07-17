@@ -7,7 +7,7 @@ export function Footer() {
         <div className="text-center space-y-6">
           {/* Brand */}
           <div className="flex items-center justify-center gap-2">
-            <Sparkles className="w-6 h-6 text-purple-500" />
+            <Sparkles className="w-6 h-6 text-[#6366F1]" />
             <span className="text-2xl font-semibold  tracking-tight">
               IntelliMeet
             </span>

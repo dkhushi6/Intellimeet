@@ -10,33 +10,25 @@ import {
 const Feature = () => {
   const features = [
     {
-      icon: (
-        <SparklesIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <SparklesIcon className="h-6 w-6 text-[#6366F1]" />,
       title: "AI-Powered Recommendations",
       description:
         "Discover events tailored to your interests with our intelligent matching system.",
     },
     {
-      icon: (
-        <TicketIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <TicketIcon className="h-6 w-6 text-[#6366F1]" />,
       title: "One-Click Ticketing",
       description:
         "Seamless ticket purchasing with instant confirmation and digital delivery.",
     },
     {
-      icon: (
-        <MessageSquareHeart className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <MessageSquareHeart className="h-6 w-6 text-[#6366F1]" />,
       title: "Real-Time Chat",
       description:
         "Connect with other attendees and organizers before, during, and after events.",
     },
     {
-      icon: (
-        <CreditCardIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <CreditCardIcon className="h-6 w-6 text-[#6366F1] " />,
       title: "Secure Payments",
       description:
         "Bank-level security for all transactions with multiple payment options.",

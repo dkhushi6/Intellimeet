@@ -46,7 +46,7 @@ const NewEvent = () => {
           <div className="flex items-center justify-between mb-8">
             <div className="">
               <div className="flex gap-2 items-baseline">
-                <Flame className="h-10 w-10 text-purple-500" />
+                <Flame className="h-10 w-10 text-[#6366F1]" />
                 <h2 className="text-4xl font-bold  mb-2">New Events</h2>
               </div>
 
@@ -89,7 +89,7 @@ const NewEvent = () => {
           <div className="text-center mt-8">
             <Link
               href="/explore"
-              className="inline-flex items-center text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-200 text-lg"
+              className="inline-flex items-center text-[#6366F1] hover:text-[#4d4fb0] font-semibold transition-colors duration-200 text-lg"
             >
               Browse All Events →
             </Link>

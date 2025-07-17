@@ -7,6 +7,7 @@ import EventCard from "@/components/event-card";
 import { EventType } from "@/lib/types/event-type";
 import { Heart, PencilIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function Created() {
   const [events, setEvent] = useState<EventType[]>([]);
@@ -25,6 +26,20 @@ export default function Created() {
     };
     handleFetch();
   }, []);
+  const handleDelete = async ({ eventId }: { eventId: string }) => {
+    try {
+      const res = await axios.delete("/api/event/delete-edit", {
+        data: { eventID: eventId },
+      });
+      console.log(res.data);
+      toast.success("Event removed successfully");
+
+      // Optionally remove from UI
+      setEvent((prev) => prev.filter((event) => event._id !== eventId));
+    } catch (error) {
+      toast.error("Failed to delete event");
+    }
+  };
 
   if (loading)
     return <p className="text-center mt-10">Loading your events...</p>;
@@ -58,10 +73,16 @@ export default function Created() {
                 <span>Edit</span>
               </button>
 
-              <button className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm">
+              <Button
+                className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm"
+                variant="ghost"
+                onClick={() => {
+                  handleDelete({ eventId: event._id });
+                }}
+              >
                 <TrashIcon className="h-4 w-4" />
                 <span>Delete</span>
-              </button>
+              </Button>
             </div>
           </div>
         ))}

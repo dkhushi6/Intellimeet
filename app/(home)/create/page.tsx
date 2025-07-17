@@ -486,7 +486,9 @@ export default function Create() {
                 <Button type="button" variant="outline" onClick={handleCancle}>
                   Cancel
                 </Button>
-                <Button type="button" onClick={handleCreate}></Button>
+                <Button type="button" onClick={handleCreate}>
+                  Create
+                </Button>
               </div>
             </div>
           </form>

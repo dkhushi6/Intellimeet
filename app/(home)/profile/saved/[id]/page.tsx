@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const [events, setEvent] = useState<EventType[]>([]);
-  // const unsave = (eventId: string) => handleUnsaveEvent(eventId, setEvent);
 
   useEffect(() => {
     const fetchSavedEvents = async () => {
@@ -47,18 +46,6 @@ const Page = () => {
         </Button>
       </div>
     );
-  // const handleUnsaveEvent = async (
-  //   eventId: string,
-  //   setEvents: React.Dispatch<React.SetStateAction<EventType[]>>
-  // ) => {
-  //   try {
-  //     await axios.patch("/api/unsave", { eventId });
-  //     setEvents((prev) => prev.filter((event) => event._id !== eventId));
-  //     toast.success("Event removed successfully");
-  //   } catch (error) {
-  //     toast.error("Error removing the event");
-  //   }
-  // };
 
   return (
     <div className="px-4 p-2">
@@ -67,13 +54,14 @@ const Page = () => {
           <div key={event._id}>
             <EventCard event={event} />
             <div className="flex items-center space-x-2 mt-3 cursor-pointer">
-              <button
+              <Button
                 className="flex items-center space-x-1 text-red-600 hover:text-red-700 text-sm"
-                onClick={() => UnsaveEvent}
+                onClick={() => UnsaveEvent(event._id, setEvent)}
+                variant="ghost"
               >
                 <HeartIcon className="h-4 w-4" />
                 <span>Unsave</span>
-              </button>
+              </Button>
             </div>
           </div>
         ))}

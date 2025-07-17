@@ -42,7 +42,7 @@ export default function ProfileNav() {
               <div
                 className={`${tabStyle} ${
                   isActive
-                    ? "text-purple-600 dark:text-purple-400"
+                    ? "text-[#6366F1] "
                     : "text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100"
                 }`}
               >
@@ -50,7 +50,7 @@ export default function ProfileNav() {
                 <span
                   className={`${countStyle} ${
                     isActive
-                      ? "bg-purple-600 text-white dark:bg-purple-500"
+                      ? "bg-[#6366F1] text-white "
                       : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
                   }`}
                 >
@@ -58,7 +58,7 @@ export default function ProfileNav() {
                 </span>
 
                 {isActive && (
-                  <span className="absolute left-0 -bottom-[1px] h-0.5 w-full bg-purple-600 dark:bg-purple-400 rounded-full" />
+                  <span className="absolute left-0 -bottom-[1px] h-0.5 w-full bg-[#6366F1]  rounded-full" />
                 )}
               </div>
             </Link>

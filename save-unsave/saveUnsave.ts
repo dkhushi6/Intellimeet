@@ -8,8 +8,10 @@ export async function UnsaveEvent(
 ) {
   try {
     await axios.patch("/api/unsave", { eventId });
-    toast.success("Event removed successfully");
+    setEvents((prev) => prev.filter((event) => event._id !== eventId));
+
+    toast.success("Event unsaved successfully");
   } catch (error) {
-    toast.error("Error removing the event");
+    toast.error("Error unsaving the event");
   }
 }

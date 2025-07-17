@@ -16,8 +16,8 @@ export default function ProfileLayout({ children }: LayoutProps) {
       </aside>
 
       {/* Main Content */}
-      <main className="md:w-3/4 w-full p-4 md:pl-2">
-        <Card className="rounded-2xl shadow-lg p-4">
+      <main className="md:w-3/4 w-full p-4 md:pl-2 ">
+        <Card className="rounded-2xl shadow-lg p-4 ">
           <ProfileNav />
           <div className="mt-2">{children}</div> {/* Reduced margin-top here */}
         </Card>
