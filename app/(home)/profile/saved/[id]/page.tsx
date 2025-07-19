@@ -8,6 +8,7 @@ import axios from "axios";
 import { Heart, HeartIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
   const [events, setEvent] = useState<EventType[]>([]);
@@ -17,8 +18,11 @@ const Page = () => {
       try {
         const res = await axios.get("/api/user");
         setEvent(res.data.userEventSaved.savedEvents);
+        const message = res?.data?.message;
+        toast.success(message);
       } catch (error) {
         console.error("Saved events data not fetched.", error);
+        toast.error("Error saving event");
       }
     };
     fetchSavedEvents();

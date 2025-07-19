@@ -16,6 +16,7 @@ import { Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CreatorType, EventType } from "@/lib/types/event-type";
+import { toast } from "sonner";
 
 export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [eventId, setEventId] = useState<string | null>(null);
@@ -40,8 +41,8 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
       if (!eventId) return null;
       try {
         const res = await axios.get(`/api/event/${eventId}`);
-        console.log("all", res.data);
-        console.log("Creator", res.data.createdByInfo);
+        // console.log("all", res.data);
+        // console.log("Creator", res.data.createdByInfo);
 
         setEvent(res.data.currentEvent);
         setCreator(res.data.createdByInfo);
@@ -69,9 +70,11 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
         quantity,
       };
       const res = await axios.post("/api/purchase", payload);
-      alert(res.data.message);
+      const message = res?.data?.message;
+      toast.success(message);
     } catch (error) {
       console.error("error purchasing", error);
+      toast.error("Error Buying ticket  event");
     }
   };
 
@@ -88,9 +91,12 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
         eventId,
         userId: session?.user?.id,
       });
-      console.log(res.data);
+      const message = res?.data?.message;
+      toast.success(message);
+      // console.log(res.data);
     } catch (error) {
       console.error("saved events data not fetched problem in fetching", error);
+      toast.error("Error saving event");
     }
   };
   if (!event) return <p>Loading...</p>;

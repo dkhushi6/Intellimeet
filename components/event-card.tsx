@@ -5,6 +5,7 @@ import React from "react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { EventType } from "@/lib/types/event-type";
+import Link from "next/link";
 
 type EventCardProps = {
   event: EventType;
@@ -29,9 +30,13 @@ const EventCard = ({ event }: EventCardProps) => {
       </div>
 
       <CardContent className="p-6">
-        <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-          {event.title}
-        </h3>
+        <Link href={`/events/${event._id}`}>
+          {" "}
+          <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+            {event.title}
+          </h3>
+        </Link>
+
         <p className="text-muted-foreground mb-4 line-clamp-2">
           {event.shortDescription}
         </p>

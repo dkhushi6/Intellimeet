@@ -1,4 +1,4 @@
-"use clients";
+"use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import EventCard from "./event-card";
@@ -16,14 +16,18 @@ const NewEvent = () => {
     const fetchEvents = async () => {
       try {
         const res = await axios.get("/api/new-events");
-        setEvents(res.data.events ?? []);
+        setEvents(res.data.events);
       } catch (error) {
         console.error("Error fetching events", error);
       }
     };
     fetchEvents();
   }, []);
-  if (!events) return <div>event not found</div>;
+  if (events === null && !events)
+    return <p className="text-center mt-10">Loading events...</p>;
+  if (events.length === 0)
+    return <p className="text-center mt-10">No events found.</p>;
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % Math.ceil(events.length - 2));
   };
@@ -34,10 +38,6 @@ const NewEvent = () => {
         (prev - 1 + Math.ceil(events.length - 2)) % Math.ceil(events.length - 2)
     );
   };
-  if (events === null)
-    return <p className="text-center mt-10">Loading events...</p>;
-  if (events.length === 0)
-    return <p className="text-center mt-10">No events found.</p>;
 
   return (
     <div>
