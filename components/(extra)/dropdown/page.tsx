@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ColumnsIcon, ChevronDown, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type DropdownProps = {
   value: string;

@@ -36,7 +36,7 @@ export default function Created() {
 
       // Optionally remove from UI
       setEvent((prev) => prev.filter((event) => event._id !== eventId));
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete event");
     }
   };

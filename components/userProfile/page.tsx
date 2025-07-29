@@ -16,11 +16,14 @@ export default function UserProfile() {
   const router = useRouter();
   useEffect(() => {
     const fetchBio = async () => {
-      const res = await axios.post("/api/bio", { userBio: bio });
-      console.log(res.data);
-
-      setExBio(res.data.userBio);
+      try {
+        const res = await axios.get("/api/bio");
+        setExBio(res.data.userBio);
+      } catch (err) {
+        console.error("Error fetching bio:", err);
+      }
     };
+
     fetchBio();
   }, []);
   const handleSave = async () => {

@@ -6,6 +6,7 @@ import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { EventType } from "@/lib/types/event-type";
 import Link from "next/link";
+import Image from "next/image";
 
 type EventCardProps = {
   event: EventType;
@@ -15,10 +16,13 @@ const EventCard = ({ event }: EventCardProps) => {
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden  p-0">
       <div className="relative">
-        <img
+        <Image
           src={event.image}
           alt={event.title}
+          width={800} // optional, use real width if known
+          height={192} // h-48 = 12rem = 192px
           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          style={{ objectFit: "cover" }}
         />
         <div className="absolute top-4 right-4"></div>
         <Button

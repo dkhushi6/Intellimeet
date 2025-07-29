@@ -1,12 +1,12 @@
 "use client";
 
 import EventCard from "@/components/event-card";
+import NoEvents from "@/components/no-events";
 import { Button } from "@/components/ui/button";
 import { EventType } from "@/lib/types/event-type";
 import { UnsaveEvent } from "@/save-unsave/saveUnsave";
 import axios from "axios";
-import { Heart, HeartIcon } from "lucide-react";
-import Link from "next/link";
+import { HeartIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -28,29 +28,7 @@ const Page = () => {
     fetchSavedEvents();
   }, []);
 
-  if (!events) {
-    return (
-      <p className="text-center py-10 text-muted-foreground">Loading...</p>
-    );
-  }
-
-  if (events.length === 0)
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="w-64 h-64 mb-8 bg-muted rounded-full flex items-center justify-center">
-          <Heart className="w-32 h-32 text-muted-foreground" />
-        </div>
-        <h3 className="text-2xl font-semibold mb-2">No saved events yet</h3>
-        <p className="text-muted-foreground mb-6 max-w-md">
-          You haven{"'"}t saved any events yet. Browse our events and save the
-          ones that interest you.
-        </p>
-        <Button size="lg">
-          <Link href="/events">Browse Events</Link>
-        </Button>
-      </div>
-    );
-
+  <NoEvents events={events} />;
   return (
     <div className="px-4 p-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
