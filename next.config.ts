@@ -7,6 +7,7 @@ const nextConfig = {
       "specials-images.forbesimg.com",
       "www.knightkings.com",
       "images.contentstack.io",
+      "images.unsplash.com",
     ],
   },
 };

@@ -24,14 +24,7 @@ const eventSchema = new mongoose.Schema(
     category: { type: String },
     isPublic: { type: Boolean, default: false }, // public/private
     isOffline: { type: Boolean, default: false }, //offline/online
-    location: {
-      address: String, // Full address (e.g., "221B Baker Street, London")
-      placeId: String, // Google Place ID (for precise reference)
-      coordinates: {
-        lat: Number,
-        lng: Number,
-      },
-    },
+    location: { type: String },
   },
   { timestamps: true }
 );

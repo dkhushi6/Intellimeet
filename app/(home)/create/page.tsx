@@ -35,14 +35,7 @@ export default function Create() {
     date: undefined as Date | undefined,
     isPublic: false,
     isOffline: false,
-    location: {
-      address: "",
-      placeId: "",
-      coordinates: {
-        lat: "",
-        lng: "",
-      },
-    },
+    location: "",
   });
 
   const handleCreate = async () => {
@@ -80,23 +73,19 @@ export default function Create() {
       alert("Please fill in all required fields.");
       return;
     }
+
     // user login
     if (!session?.user?.id) {
       alert("User not logged in");
       return;
     }
+
     // Additional check for offline location
-    if (isOffline) {
-      if (
-        !location.address ||
-        !location.placeId ||
-        !location.coordinates.lat ||
-        !location.coordinates.lng
-      ) {
-        alert("Please complete the location fields for offline events.");
-        return;
-      }
+    if (isOffline && !location) {
+      alert("Please provide the location for offline events.");
+      return;
     }
+
     const payload = {
       title,
       shortDescription,
@@ -112,8 +101,9 @@ export default function Create() {
       isOffline,
       isPublic,
       location: isOffline ? location : undefined,
-      createdById: session.user.id, // use the session user ID
+      createdById: session.user.id,
     };
+
     try {
       const res = await axios.post("/api/event", payload);
       console.log("Event Created:", res.data);
@@ -133,35 +123,12 @@ export default function Create() {
   const handleCancle = () => {
     formRef.current?.reset();
   };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
-    if (name.startsWith("location.coordinates.")) {
-      const key = name.split(".")[2];
-      setFormData((prev) => ({
-        ...prev,
-        location: {
-          ...prev.location,
-          coordinates: {
-            ...prev.location.coordinates,
-            [key]: value,
-          },
-        },
-      }));
-    } else if (name.startsWith("location.")) {
-      const key = name.split(".")[1];
-      setFormData((prev) => ({
-        ...prev,
-        location: {
-          ...prev.location,
-          [key]: value,
-        },
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -192,6 +159,7 @@ export default function Create() {
         <CardContent>
           <form>
             <div className="flex flex-col gap-3">
+              {/* Title & Short Description */}
               <div className="flex gap-2">
                 <div className="grid gap-2 w-[100vh]">
                   <Label className="text-[14px] font-semibold">
@@ -225,6 +193,7 @@ export default function Create() {
                 </div>
               </div>
 
+              {/* Price, Discount, Occupancy, Category */}
               <div className="flex gap-2">
                 <div className="w-1/4">
                   <Label htmlFor="price" className="font-semibold text-[14px]">
@@ -303,6 +272,7 @@ export default function Create() {
                 </div>
               </div>
 
+              {/* Date & Time */}
               <div className="flex gap-2 pt-2">
                 <div className="w-1/3">
                   <Calendar28
@@ -344,6 +314,7 @@ export default function Create() {
                 </div>
               </div>
 
+              {/* Image */}
               <div className="flex gap-2 py-2">
                 <div className="grid gap-2 w-[100vh]">
                   <Label className="text-[14px] font-semibold">Image URL</Label>
@@ -360,6 +331,7 @@ export default function Create() {
                 </div>
               </div>
 
+              {/* Long Description */}
               <div className="grid gap-2">
                 <Label className="text-[14px] font-semibold">
                   Long Description
@@ -375,8 +347,7 @@ export default function Create() {
                 />
               </div>
 
-              {/* Location Fields */}
-
+              {/* Location */}
               <div className="grid gap-4">
                 <div className="flex justify-between items-center">
                   <Label className="text-[14px] font-semibold">
@@ -400,83 +371,22 @@ export default function Create() {
                 </div>
 
                 {formData.isOffline && (
-                  <div>
-                    {" "}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="grid gap-2">
-                        <Label
-                          htmlFor="address"
-                          className="text-[14px] font-semibold"
-                        >
-                          Address
-                        </Label>
-                        <Input
-                          id="address"
-                          type="text"
-                          name="location.address"
-                          placeholder="221B Baker Street, London"
-                          className="border border-gray-300"
-                          onChange={handleChange}
-                          value={formData.location.address}
-                        />
-                      </div>
-
-                      <div className="grid gap-2">
-                        <Label
-                          htmlFor="placeId"
-                          className="text-[14px] font-semibold"
-                        >
-                          Place ID
-                        </Label>
-                        <Input
-                          id="placeId"
-                          type="text"
-                          name="location.placeId"
-                          placeholder="Google Place ID"
-                          className="border border-gray-300"
-                          onChange={handleChange}
-                          value={formData.location.placeId}
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="grid gap-2">
-                        <Label
-                          htmlFor="lat"
-                          className="text-[14px] font-semibold"
-                        >
-                          Latitude
-                        </Label>
-                        <Input
-                          id="lat"
-                          name="location.coordinates.lat"
-                          type="number"
-                          step="0.000001"
-                          placeholder="51.5237"
-                          className="border border-gray-300"
-                          value={formData.location.coordinates.lat}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label
-                          htmlFor="lng"
-                          className="text-[14px] font-semibold"
-                        >
-                          Longitude
-                        </Label>
-                        <Input
-                          id="lng"
-                          name="location.coordinates.lng"
-                          type="number"
-                          step="0.000001"
-                          placeholder="-0.1585"
-                          className="border border-gray-300"
-                          onChange={handleChange}
-                          value={formData.location.coordinates.lng}
-                        />
-                      </div>
-                    </div>
+                  <div className="grid gap-2">
+                    <Label
+                      htmlFor="location"
+                      className="text-[14px] font-semibold"
+                    >
+                      Address
+                    </Label>
+                    <Input
+                      id="location"
+                      type="text"
+                      name="location"
+                      placeholder="221B Baker Street, London"
+                      className="border border-gray-300"
+                      onChange={handleChange}
+                      value={formData.location}
+                    />
                   </div>
                 )}
               </div>

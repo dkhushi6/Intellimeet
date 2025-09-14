@@ -25,8 +25,7 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
   const [event, setEvent] = useState<EventType | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const { data: session } = useSession();
-
-  const isCreator = session?.user?.id === event?.createdById;
+  if (status === "loading") return <p>Loading...</p>;
   //params unwraping
   useEffect(() => {
     const resolveParams = async () => {
@@ -41,8 +40,6 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
       if (!eventId) return null;
       try {
         const res = await axios.get(`/api/event/${eventId}`);
-        // console.log("all", res.data);
-        // console.log("Creator", res.data.createdByInfo);
 
         setEvent(res.data.currentEvent);
         setCreator(res.data.createdByInfo);
@@ -52,17 +49,9 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
     };
     fetchEvent();
   }, [eventId]);
+  const isCreator = session?.user?.id === creator?._id;
 
   const handleBuyNow = async () => {
-    //if (!event) return;
-    //const unitPrice =
-    // event.discountPrice > 0 ? event.discountPrice : event.price;
-    // const total = quantity * unitPrice;
-    // alert(`You selected ${quantity} ticket(s). Total: ₹${total}`);
-    // You can replace this with your purchase logic or API call
-    console.log("User ID:", session?.user?.id);
-    console.log("Event ID:", eventId);
-
     try {
       const payload = {
         userId: session?.user?.id,

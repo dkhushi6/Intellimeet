@@ -29,7 +29,7 @@ export default function Creator({
       if (!creatorId) return null;
       try {
         const res = await axios.get(`/api/createdByEvents/${creatorId}`);
-        console.log("all", res.data);
+        console.log("all user data", res.data);
 
         setEvents(res.data.adminEvents);
       } catch (error) {
@@ -41,10 +41,10 @@ export default function Creator({
   useEffect(() => {
     const fetchUser = async () => {
       if (!creatorId) return null;
-
+      console.log("creator id", creatorId);
       try {
         const res = await axios.get(`/api/createdByInfo/${creatorId}`);
-        console.log("all", res.data);
+        console.log("USER", res.data);
 
         setUser(res.data.user);
       } catch (error) {

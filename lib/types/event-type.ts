@@ -10,7 +10,7 @@ export type EventType = {
   endTime: string;
   price: number;
   discountPrice: number;
-  createdById: string;
+  createdById: string | CreatorType;
   occupancy: string;
   category: string;
   isPublic: boolean;

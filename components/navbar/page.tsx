@@ -3,60 +3,57 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeSwitcher from "@/components/theme-switcher/page";
-import { Button } from "../ui/button";
-
+import { Button, buttonVariants } from "../ui/button";
 import { Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
+
   return (
     <div>
-      {" "}
       <div className="flex justify-between border border-muted shadow-md p-6">
+        {/* Logo */}
         <div>
-          {" "}
           <Link href="/">
             <div className="flex items-center justify-center gap-2">
               <Sparkles className="w-6 h-6 text-[#6366F1]" />
-              <span className="text-2xl font-semibold  tracking-tight">
+              <span className="text-2xl font-semibold tracking-tight">
                 IntelliMeet
               </span>
-            </div>{" "}
+            </div>
           </Link>
         </div>
-        <div className="flex gap-4">
-          <div>
-            <ThemeSwitcher />
-          </div>
-          <div>
-            <Link href="/create">
-              <Button>Create</Button>
-            </Link>
-          </div>
-          <div>
-            <Link href="/explore">
-              <Button>Explore</Button>
-            </Link>
-          </div>
+
+        {/* Right side */}
+        <div className="flex gap-4 items-center">
+          <ThemeSwitcher />
+
+          <Link href="/explore">
+            <Button>Explore</Button>
+          </Link>
 
           {session ? (
-            <div>
-              <Link href="/profile">
-                <div className="">
-                  <Image
-                    src={session.user?.image || "default"}
-                    alt="user"
-                    className=" rounded-full "
-                    width={32}
-                    height={32}
-                  />
-                </div>
+            <>
+              <Link href="/create">
+                <Button>Create</Button>
               </Link>
-            </div>
+              <Link href="/profile">
+                <Image
+                  src={session.user?.image || "/default.png"}
+                  alt="user"
+                  className="rounded-full"
+                  width={32}
+                  height={32}
+                />
+              </Link>
+            </>
           ) : (
-            <div>
-              <Link href="/login">Login</Link>
-            </div>
+            <Link
+              href="/login"
+              className={buttonVariants({ variant: "outline" })}
+            >
+              Login
+            </Link>
           )}
         </div>
       </div>

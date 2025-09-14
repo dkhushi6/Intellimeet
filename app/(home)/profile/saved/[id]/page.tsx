@@ -19,10 +19,8 @@ const Page = () => {
         const res = await axios.get("/api/user");
         setEvent(res.data.userEventSaved.savedEvents);
         const message = res?.data?.message;
-        toast.success(message);
       } catch (error) {
         console.error("Saved events data not fetched.", error);
-        toast.error("Error saving event");
       }
     };
     fetchSavedEvents();
