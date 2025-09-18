@@ -18,6 +18,7 @@ export default function UserProfile() {
     const fetchBio = async () => {
       try {
         const res = await axios.get("/api/bio");
+        console.log("BIO", res.data);
         setExBio(res.data.userBio);
       } catch (err) {
         console.error("Error fetching bio:", err);
@@ -70,7 +71,7 @@ export default function UserProfile() {
                   <Button
                     onClick={handleDelete}
                     variant="ghost"
-                    className="absolute top-2 right-2 h-8 w-8 p-1 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    className="absolute top-2 right-2 h-8 w-8 p-1 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-700 "
                   >
                     <PencilIcon className="h-4 w-4 text-indigo-600 dark:text-indigo-300" />
                   </Button>

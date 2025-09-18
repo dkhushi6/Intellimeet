@@ -3,6 +3,27 @@ import { connectDB } from "@/lib/mdb-connection";
 import User from "@/lib/models/user";
 import { NextRequest, NextResponse } from "next/server";
 //save user bio
+export async function GET() {
+  await connectDB();
+
+  const session = await auth();
+
+  const userId = session?.user?.id;
+  const user = await User.findById(userId);
+  if (!user) {
+    return NextResponse.json({ message: "login first" });
+  }
+
+  if (!user.bio) {
+    return NextResponse.json({
+      message: "bio dont  exist already",
+    });
+  }
+  return NextResponse.json({
+    message: "bio exist already",
+    userBio: user.bio,
+  });
+}
 export async function POST(req: NextRequest) {
   await connectDB();
   const body = await req.json();

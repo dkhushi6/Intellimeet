@@ -5,27 +5,17 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { CreatorType, EventType } from "@/lib/types/event-type";
 import EventCard from "@/components/event-card";
+import { useParams } from "next/navigation";
 
-export default function Creator({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const [creatorId, setCreator] = useState("");
+export default function Creator() {
+  const params = useParams();
   const [user, setUser] = useState<CreatorType | null>(null);
-
+  const creatorId = params.id;
   const [events, setEvents] = useState<EventType[]>([]);
 
   useEffect(() => {
-    const resolveParams = async () => {
-      const resolved = await params;
-      setCreator(resolved.id);
-    };
-    resolveParams();
-  }, [params]);
-
-  useEffect(() => {
     const fetchEvent = async () => {
+      console.log("CREATERID", creatorId);
       if (!creatorId) return null;
       try {
         const res = await axios.get(`/api/createdByEvents/${creatorId}`);

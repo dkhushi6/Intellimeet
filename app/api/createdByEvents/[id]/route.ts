@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
-  const createdById = await params.id;
+  const createdById = params.id;
 
   if (!createdById) {
     return NextResponse.json({
