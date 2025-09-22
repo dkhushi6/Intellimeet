@@ -23,8 +23,8 @@ const NewEvent = () => {
     };
     fetchEvents();
   }, []);
-  if (events === null && !events)
-    return <p className="text-center mt-10">Loading events...</p>;
+  if (!events) return <p className="text-center mt-10">Loading events...</p>;
+
   if (events.length === 0)
     return <p className="text-center mt-10">No events found.</p>;
 

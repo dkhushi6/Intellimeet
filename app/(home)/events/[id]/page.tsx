@@ -24,8 +24,7 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
 
   const [event, setEvent] = useState<EventType | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
-  const { data: session } = useSession();
-  if (status === "loading") return <p>Loading...</p>;
+  const { data: session, status } = useSession();
   //params unwraping
   useEffect(() => {
     const resolveParams = async () => {
@@ -49,6 +48,8 @@ export default function Event({ params }: { params: Promise<{ id: string }> }) {
     };
     fetchEvent();
   }, [eventId]);
+  if (status === "loading") return <p>Loading...</p>;
+
   const isCreator = session?.user?.id === creator?._id;
 
   const handleBuyNow = async () => {

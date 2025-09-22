@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Event from "@/lib/models/event";
 
 //see events from specific admins
+
+//see events from specific admins
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
